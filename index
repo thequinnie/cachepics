@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Geocache</title>
+<style>
+body { 
+  margin: 0;
+  background: black;
+  }
+  
+  img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+  }
+  </style>
+  </head>
+  <body>
+  
+  <img id="bild">
+  <script>
+  const bilder = [ 
+    "Episode_3_-_1.webp",
+    "README.md",
+    "Unbenannt.png",
+    "tumblr_29d16e7b5540db238b39f7e22f4e0e1a_72e58fde_1280.jpg"
+];
+
+const intervall = 5; // Minuten
+const index = 
+  Math.floor(Date.now() / (intervall * 60 * 1000))
+  % bilder.length;
+  
+  document.getElementById("bild").src = bilder[index];
+  </script>
+  
+  </body>
+  </html>
