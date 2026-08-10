@@ -1,39 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Geocache</title>
-<style>
-body { 
-  margin: 0;
-  background: black;
-  }
-  
-  img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-  }
-  </style>
-  </head>
-  <body>
-  
-  <img id="bild">
-  <script>
-  const bilder = [ 
-    "Episode_3_-_1.webp",
-    "README.md",
-    "Unbenannt.png",
-    "tumblr_29d16e7b5540db238b39f7e22f4e0e1a_72e58fde_1280.jpg"
-];
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const intervall = 0,5; // Minuten
-const index = 
-  Math.floor(Date.now() / (intervall * 60 * 1000))
-  % bilder.length;
-  
-  document.getElementById("bild").src = bilder[index];
+  <title>Geocache</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    #bild {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <img id="bild" alt="">
+
+  <script>
+    (() => {
+
+      /*
+       * Bildwechsel alle 30 Sekunden.
+       */
+      const intervall = 30000;
+
+
+      /*
+       * Die Bildnamen stehen hier nicht direkt lesbar.
+       *
+       * Aktuell enthalten sind:
+       *
+       * Episode_3_-_1.webp
+       * Unbenannt.png
+       * tumblr_29d16e7b5540db238b39f7e22f4e0e1a_72e58fde_1280.jpg
+       */
+
+      const daten =
+        "RXBpc29kZV8zXy1fMS53ZWJwfFVuYmVuYW5udC5wbmd8dHVtYmxyXzI5ZDE2ZTdiNTU0MGRiMjM4YjM5ZjdlMjJmNGUwZTFhXzcyZTU4ZmRlXzEyODAuanBn";
+
+
+      /*
+       * Bildliste entschlüsseln / dekodieren
+       */
+      const bilder =
+        atob(daten)
+        .split("|");
+
+
+      /*
+       * Ermittelt anhand der aktuellen Zeit,
+       * welches Bild angezeigt werden soll.
+       *
+       * Dadurch sehen alle Besucher gleichzeitig
+       * dasselbe Bild.
+       */
+      function aktuellesBild() {
+
+        const index =
+          Math.floor(Date.now() / intervall)
+          % bilder.length;
+
+        return bilder[index];
+      }
+
+
+      /*
+       * Bild anzeigen
+       */
+      function aktualisieren() {
+
+        const bild = document.getElementById("bild");
+        const neuesBild = aktuellesBild();
+
+        if (!bild.src.endsWith(neuesBild)) {
+          bild.src = neuesBild;
+        }
+      }
+
+
+      /*
+       * Direkt beim Aufrufen anzeigen
+       */
+      aktualisieren();
+
+
+      /*
+       * Jede Sekunde prüfen.
+       * Der tatsächliche Wechsel erfolgt trotzdem
+       * nur alle 30 Sekunden.
+       */
+      setInterval(aktualisieren, 1000);
+
+    })();
   </script>
-  
-  </body>
-  </html>
+
+</body>
+</html>
