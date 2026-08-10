@@ -27,7 +27,7 @@ body {
     "tumblr_29d16e7b5540db238b39f7e22f4e0e1a_72e58fde_1280.jpg"
 ];
 
-const intervall = 5; // Minuten
+const intervall = 0,5; // Minuten
 const index = 
   Math.floor(Date.now() / (intervall * 60 * 1000))
   % bilder.length;
